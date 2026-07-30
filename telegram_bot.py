@@ -45,7 +45,7 @@ class TelegramTwinBot:
             try:
                 from langchain_chroma import Chroma
                 
-                print(f"\n🗑️ Attempting memory wipe for user: {user_id}")
+                print(f"\n Attempting memory wipe for user: {user_id}")
                 
                 # Create a fresh, direct connection to the database
                 temp_db = Chroma(
@@ -59,16 +59,16 @@ class TelegramTwinBot:
                 results = collection.get(where={"user_id": user_id})
                 chunk_count = len(results['ids']) if results and results['ids'] else 0
                 
-                print(f"🔍 Found {chunk_count} chunks in ChromaDB.")
+                print(f" Found {chunk_count} chunks in ChromaDB.")
                 
                 if chunk_count > 0:
                     # Force delete directly from the collection using the filter
                     collection.delete(where={"user_id": user_id})
-                    print(f"✅ Successfully deleted {chunk_count} chunks!")
+                    print(f" Successfully deleted {chunk_count} chunks!")
                 else:
-                    print("⚠️ No chunks found to delete.")
+                    print(" No chunks found to delete.")
                     
-                self.bot.reply_to(message, "🗑️ **Memory Wiped!**\n\nYour digital brain has been completely erased, and your upload limit is reset to 2. You can upload a new Resume and Bio now.")
+                self.bot.reply_to(message, "Memory Wiped!\n\nYour digital brain has been completely erased, and your upload limit is reset to 2. You can upload a new Resume and Bio now.")
                 
             except Exception as e:
                 self.bot.reply_to(message, "Oops, something went wrong while trying to wipe your memory.")
@@ -93,12 +93,12 @@ class TelegramTwinBot:
                 current_count = self.user_upload_counts.get(user_id, 0)
                 
                 if current_count >= 2:
-                    self.bot.reply_to(message, "❌ **Upload Limit Reached!**\n\nYou are only allowed a maximum of 2 files (Resume and Bio). If you need to update them, type /reset to wipe your memory and start over.")
+                    self.bot.reply_to(message, " **Upload Limit Reached!**\n\nYou are only allowed a maximum of 2 files (Resume and Bio). If you need to update them, type /reset to wipe your memory and start over.")
                     return
 
                 file_name = message.document.file_name.lower()
                 if not file_name.endswith('.pdf'):
-                    self.bot.reply_to(message, "❌ Please upload a PDF file. I cannot read other formats.")
+                    self.bot.reply_to(message, " Please upload a PDF file. I cannot read other formats.")
                     return
 
                 self.bot.reply_to(message, "Downloading your PDF...")
@@ -144,13 +144,13 @@ class TelegramTwinBot:
             except Exception as e:
                 error_msg = str(e)
                 if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
-                    self.bot.reply_to(message, "I'm thinking a little too fast! ⏱️ Google's limit reached. Please wait 30 seconds.")
+                    self.bot.reply_to(message, "I'm thinking a little too fast!  Google's limit reached. Please wait 30 seconds.")
                 else:
                     self.bot.reply_to(message, "An error occurred while thinking. Please try again.")
                     print(f"Chat Error: {e}")
 
     def run(self):
-        print("🤖 V2 Multi-User Telegram Bot is online! (With Reset & Persistent Limits)")
+        print("Your Digital Twin Telegram Bot is online! ")
         self.bot.infinity_polling()
 
 if __name__ == "__main__":
