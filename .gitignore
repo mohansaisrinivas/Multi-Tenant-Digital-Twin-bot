@@ -1,0 +1,15 @@
+# Security
+.env
+
+# Virtual Environment
+venv/
+env/
+
+# Database and State files
+chroma_db/
+upload_counts.json
+temp_data/
+
+# Python cache
+__pycache__/
+*.pyc
